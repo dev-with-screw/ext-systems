@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 
-public class PersonCheckerDaoTest {
+public class PersonCheckDaoTest {
 
     @Test
     public void checkPerson() throws PersonCheckException {
@@ -22,7 +22,8 @@ public class PersonCheckerDaoTest {
         pr.setExtension("2");
         pr.setApartment("121");
 
-        PersonCheckerDao dao = new PersonCheckerDao();
+        PersonCheckDao dao = new PersonCheckDao();
+        dao.setConnectionBuilder(new DirectConnectionBuilder());
         PersonResponse ps = dao.checkPerson(pr);
         Assert.assertTrue(ps.isRegistered());
         Assert.assertFalse(ps.isTemporal());
@@ -39,7 +40,8 @@ public class PersonCheckerDaoTest {
         pr.setBuilding("271");
         pr.setApartment("4");
 
-        PersonCheckerDao dao = new PersonCheckerDao();
+        PersonCheckDao dao = new PersonCheckDao();
+        dao.setConnectionBuilder(new DirectConnectionBuilder());
         PersonResponse ps = dao.checkPerson(pr);
         Assert.assertTrue(ps.isRegistered());
         Assert.assertFalse(ps.isTemporal());

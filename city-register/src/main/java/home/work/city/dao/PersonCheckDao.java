@@ -6,7 +6,7 @@ import home.work.city.exception.PersonCheckException;
 
 import java.sql.*;
 
-public class PersonCheckerDao {
+public class PersonCheckDao {
     private static final String SQL_REQUEST =
             "select temporal from cr_address_person ap " +
                     "inner join cr_person p on p.person_id = ap.person_id " +
@@ -16,6 +16,16 @@ public class PersonCheckerDao {
                     "and upper(p.sur_name) = upper(?) and upper(p.given_name) = upper(?) and upper(p.patronymic) = upper(?) " +
                     "and p.date_of_birth = ? " +
                     "and a.street_code = ? and upper(a.building) = upper(?) ";
+
+    private ConnectionBuilder connectionBuilder;
+
+    public void setConnectionBuilder(ConnectionBuilder connectionBuilder) {
+        this.connectionBuilder = connectionBuilder;
+    }
+
+    private Connection getConnection() throws SQLException {
+        return connectionBuilder.getConnection();
+    }
 
     public PersonResponse checkPerson(PersonRequest request) throws PersonCheckException {
         PersonResponse response = new PersonResponse();
@@ -62,8 +72,5 @@ public class PersonCheckerDao {
         return response;
     }
 
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:postgresql://localhost/city_register",
-                "postgres", "postgres");
-    }
+
 }
